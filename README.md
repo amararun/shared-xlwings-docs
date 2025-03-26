@@ -47,8 +47,6 @@ xlwings Lite is a powerful addition to the data scientist's toolkit that allows 
 - Remote database connections through web layer
 - FastAPI server integration for secure database access
 - Support for various API endpoints (databases, LLMs)
-- Secure credential management using environment variables
-- API key rotation and access control
 
 ### LLM Integration
 - API calls to OpenAI, Gemini, and Claude Sonnet
@@ -66,8 +64,7 @@ xlwings Lite is a powerful addition to the data scientist's toolkit that allows 
 1. **Installation**
    ```bash
    # Install xlwings Add-in in Excel
-   # Install required Python packages
-   pip install -r requirements.txt
+   
    ```
 
 2. **Usage**
@@ -75,44 +72,6 @@ xlwings Lite is a powerful addition to the data scientist's toolkit that allows 
    - Use the xlwings interface to run the scripts
    - View results in new sheets within the workbook
 
-## Best Practices
-
-- Format Excel ranges as tables for optimal results
-- Use `.options(index=False)` when writing back to Excel tables
-- Leverage the console and `print()` for debugging
-- Share code samples with AI coders for efficient development
-- Use FastAPI server for secure remote database connections
-
-## When to Use xlwings Lite
-
-### Great For:
-- Excel automation (Python over VBA)
-- Complex Excel transformations
-- Quick EDA and validation
-- In-sheet diagnostics
-- Basic ML model implementation
-- External system integration
-- API-based workflows
-- Remote database analysis
-
-### When to Stick with Jupyter/Colab:
-- Complex data warehouse operations
-- Extensive data cleaning workflows
-- Multiple iteration cycles
-- Large-scale ML model development
-
-## Requirements
-
-- Python 3.x
-- xlwings
-- pandas
-- numpy
-- scikit-learn
-- xgboost
-- matplotlib
-- seaborn
-- fastapi (for remote database connections)
-- requests (for API calls)
 
 ## Resources
 
@@ -121,46 +80,6 @@ xlwings Lite is a powerful addition to the data scientist's toolkit that allows 
 - [xlwings Lite Documentation](https://lite.xlwings.org/)
 - [Running Python in Excel - Part 1](https://lnkd.in/gjdqpqXK)
 - [Build with xlwings Lite - Part 2](https://www.linkedin.com/feed/update/urn:li:activity:7308863086529040385/)
+- [Post & walkthrough video by Felix Zumstein (creator of xlwings)](https://lnkd.in/geKzDK45)
 
-### Example Files
-- [Example Excel Files](*.xlsx)
-- [Scripts](SCRIPTS.MD)
-
-## Contributing
-
-Feel free to submit issues and enhancement requests!
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Security Best Practices
-
-### Credential Management
-- Never commit sensitive credentials to the repository
-- Use environment variables for API keys and passwords
-- Store credentials in `.env` files (listed in .gitignore)
-- Rotate credentials regularly
-- Use secure credential storage services when possible
-
-### API Security
-- Use HTTPS for all API communications
-- Implement proper authentication and authorization
-- Use API key rotation
-- Follow the principle of least privilege
-- Monitor API usage and access patterns
-
-### Database Security
-- Use connection pooling
-- Implement proper access controls
-- Encrypt sensitive data in transit
-- Use parameterized queries to prevent SQL injection
-- Regular security audits and updates
-
-### General Security
-- Keep dependencies updated
-- Regular security scanning
-- Follow security best practices for your specific use case
-- Monitor for suspicious activities
-- Implement proper error handling
 
