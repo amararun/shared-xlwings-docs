@@ -19,7 +19,18 @@ xlwings Lite is a powerful addition to the data scientist's toolkit that allows 
 
 ## Example Workflows
 
-### 1. XGBoost Response Model
+### 1. Monte Carlo Simulation & Distribution Analysis
+- Generate random samples from multiple probability distributions (Uniform, Triangular, Normal, Log-Normal)
+- Interactive input parameters with P10, P50, P90 values
+- Dynamic visualization of distributions with histograms
+- Statistical analysis including mean, standard deviation, and percentiles
+- Cumulative distribution plots for risk analysis
+- Automated dashboard generation with multiple charts
+- Real-time updates of statistical measures
+- Support for oil and gas reserve calculations
+- Customizable input parameters and distribution types
+
+### 2. XGBoost Response Model
 - Loads data from Excel tables
 - Performs feature engineering
 - Trains XGBoost model
@@ -27,13 +38,13 @@ xlwings Lite is a powerful addition to the data scientist's toolkit that allows 
 - Creates ROC and gain curves
 - Exports results back to Excel
 
-### 2. Credit Card Segment Analysis
+### 3. Credit Card Segment Analysis
 - Table formatting and data preparation
 - Weighted scoring implementation
 - Multicollinearity analysis
 - Results visualization
 
-### 3. Remote Database Integration
+### 4. Remote Database Integration
 - Connect to remote PostgreSQL database
 - Explore tables and execute custom SQL queries
 - Pull and analyze data directly from Excel
