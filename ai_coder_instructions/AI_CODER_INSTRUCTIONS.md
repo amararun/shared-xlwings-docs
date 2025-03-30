@@ -14,24 +14,22 @@ This repository contains example scripts demonstrating how to use xlwings Lite f
 1. **Font formatting is not supported** in xlwings Lite - avoid using `.font.bold`, `.font.size`, etc. Use normal case text instead of relying on formatting.
 2. **Sheet.autofit() is not supported** in xlwings Lite - you'll get a `NotImplementedError` if you try to use it.
 3. **Table formatting may fail** - always wrap table formatting in try/except blocks to prevent errors from stopping execution.
-4. **For HTTP requests**, always use `pyfetch` with `response_type="blob"` for binary data (like file downloads).
-   - **IMPORTANT**: Import `pyfetch` from `pyodide.http`, NOT from `xlwings.js`:
+4. **HTTP Request Support**:
+   - Supports all common Python HTTP libraries (requests, httpx, aiohttp)
+   - Native support for pyodide's pyfetch (async JavaScript fetch wrapper)
+   - requests: Synchronous requests (no async/await required)
+   - aiohttp/httpx: Async support available (requires async/await syntax)
+   - Example:
    ```python
-   from pyodide.http import pyfetch  # CORRECT
-   # from xlwings.js import pyfetch  # INCORRECT - will cause ImportError
-   ```
-   - Even though `pyodide-http` is listed in requirements.txt, you must use the correct import path
-   - Example of correct HTTP request:
-   ```python
-   from pyodide.http import pyfetch
+   # Synchronous with requests
+   import requests
+   response = requests.get("https://api.example.com/data")
    
-   response = await pyfetch(
-       "https://example.com/api",
-       method="GET",
-       headers={"Accept": "application/json"},
-       response_type="blob"
-   )
-   content = await response.text()
+   # Async with aiohttp
+   import aiohttp
+   async with aiohttp.ClientSession() as session:
+       async with session.get("https://api.example.com/data") as response:
+           data = await response.json()
    ```
 5. **For FastAPI servers** that return file responses, use `await response.text()` to extract content.
 6. **Pipe-delimited data** (common in FastAPI file responses) can be parsed by splitting lines with `.split("\n")` and columns with `.split("|")`.
