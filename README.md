@@ -76,10 +76,11 @@ xlwings Lite is a powerful addition to the data scientist's toolkit that allows 
 ## Resources
 
 ### Documentation & Guides
+- [Monte Carlo Simulation & Dashboards with xlwings from Franco Silvia](https://github.com/FrancoSivila/OGIP_Py/blob/3adb423a17c2170d2d976bfb3b5e3975c36c0ad3/14%20OGIPpy%20xlwings%20(26%20mar%2025).xlsm)
 - [xlwings Documentation](https://www.xlwings.org/)
 - [xlwings Lite Documentation](https://lite.xlwings.org/)
 - [Running Python in Excel - Part 1](https://lnkd.in/gjdqpqXK)
-- [Build with xlwings Lite - Part 2](https://www.linkedin.com/feed/update/urn:li:activity:7308863086529040385/)
+- [API Calls, Database Connect, EDA, Machine Learning - Part 2](https://www.linkedin.com/feed/update/urn:li:activity:7308863086529040385/)
 - [Post & walkthrough video by Felix Zumstein (creator of xlwings)](https://lnkd.in/geKzDK45)
 
 
