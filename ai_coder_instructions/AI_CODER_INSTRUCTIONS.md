@@ -879,6 +879,135 @@ async def get_table_data(book: xw.Book):
     print("⭐⭐⭐ ENDING get_table_data SUCCESSFULLY ⭐⭐⭐")
 ```
 
+### 5. AI Schema Analysis with LLM API
+This script demonstrates how to:
+- Connect to LLM APIs (like Gemini) for schema analysis
+- Process table data for AI analysis
+- Handle API responses and error conditions
+- Update Excel with AI-generated insights
+
+```python
+@script
+def analyze_table_schema(book: xw.Book):
+    """Analyze table schema using LLM API to identify categorical and numeric variables."""
+    
+    print("\n=== Starting Schema Analysis ===")
+    
+    try:
+        # Get parameters from MASTER sheet
+        master_sheet = book.sheets["MASTER"]
+        table_name = master_sheet["B6"].value
+        api_key = master_sheet["B4"].value
+        model = master_sheet["B3"].value
+        
+        # Find and read table data
+        table = None
+        for sheet in book.sheets:
+            if table_name in [t.name for t in sheet.tables]:
+                table = sheet.tables[table_name]
+                break
+                
+        # Get sample data for analysis
+        sample_data = table.range[:10, :].options(pd.DataFrame, index=False).value
+        
+        # Create AI prompt for schema analysis
+        prompt = f"""
+        Analyze these first rows from a dataset (including headers):
+        {sample_data.to_string()}
+        
+        Task: Identify categorical and numeric variables for EDA.
+        Return ONLY a JSON with:
+        {{
+            "categorical_variables": ["col1", "col2"],
+            "numeric_variables": ["col3", "col4"]
+        }}
+        """
+        
+        # Call LLM API and process response
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+        response = requests.post(
+            f"{url}?key={api_key}",
+            headers={"Content-Type": "application/json"},
+            json={
+                "contents": [{"parts": [{"text": prompt}]}],
+                "generationConfig": {
+                    "temperature": 0,
+                    "topP": 1,
+                    "topK": 1
+                }
+            }
+        )
+        
+        # Parse and validate schema
+        schema = json.loads(response.json()['candidates'][0]['content']['parts'][0]['text'])
+        return schema
+        
+    except Exception as e:
+        print(f"\n❌ Error: {str(e)}")
+        raise
+```
+
+### 6. Database API Integration
+This script shows how to:
+- Make API calls to database services
+- Handle different response formats
+- Process and display database query results
+- Manage database connections securely
+
+```python
+@script
+async def list_tables(book: xw.Book):
+    """List all tables in the database with column counts."""
+    
+    try:
+        api_url = "https://rexdb.hosting.tigzig.com/connect-db/"
+        
+        # Query to get tables with column counts
+        sql_query = """
+        SELECT 
+            table_name,
+            (SELECT COUNT(*) FROM information_schema.columns c 
+             WHERE c.table_schema = t.table_schema 
+             AND c.table_name = t.table_name) AS column_count
+        FROM information_schema.tables t
+        WHERE table_schema = 'public'
+        ORDER BY table_name;
+        """
+        
+        # Make API request
+        response = await pyfetch(
+            build_api_url(api_url, get_db_connection_params(), sql_query),
+            method="GET",
+            response_type="blob"
+        )
+        
+        # Process and display results
+        if response.ok:
+            content = await response.text()
+            df = process_pipe_delimited_response(content)
+            
+            sheet = book.sheets.add("Database Tables")
+            sheet["A1"].value = "PostgreSQL Database Tables"
+            sheet["A3"].value = df
+            
+            try:
+                table_range = sheet["A3"].resize(len(df) + 1, len(df.columns))
+                sheet.tables.add(table_range)
+            except Exception as e:
+                print(f"⚠️ Table formatting failed: {e}")
+                
+    except Exception as e:
+        print(f"❌ Error: {str(e)}")
+```
+
+These examples demonstrate:
+1. Integration with AI/LLM APIs for data analysis
+2. Secure database connectivity
+3. Error handling and logging
+4. Excel table management
+5. Response processing and data formatting
+
+For more details on implementation, refer to the full source code in `apiCallSchema.py` and `db_connect.py`.
 
 ## Setup Instructions
 1. Install xlwings Add-in in Excel
